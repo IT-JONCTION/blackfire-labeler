@@ -18,51 +18,76 @@ This repository provides a utility to facilitate the labeling of transactions us
 ├── tests
 │   └── BlackfireIntegration
 │       └── BlackfireTest.php
+├── build
+│   └── logs
+│   └── coverage-html
+├── redisValues.php.example
 ├── composer.json
-├── LICENSE
 ├── phpunit.xml
-├── README.md
-└── redisValues.php
+└── README.md
 ```
 
-### Main Components
-
-- **src/ItJonction/BlackfireLabeler/BlackfireLabelerController.php**: This script serves as the entry point for running Blackfire-related tasks. It triggers the `runBlackfireTask` function, which handles labeling and profiling.
-
-- **src/ItJonction/BlackfireLabeler/CommonTaskRunner.php**: This file contains the `runBlackfireTask` function, which is responsible for executing tasks with a Blackfire labeler. It handles loading necessary classes and managing errors during the task execution.
-
-- **src/ItJonction/BlackfireLabeler/BlackfireLabeler.php**: The `BlackfireLabeler` class provides various methods to label transactions, log request details to Redis, and set transaction names for profiling.
-
-- **src/ItJonction/BlackfireLabeler/RedisConfig.php**: The `RedisConfig` class is responsible for configuring and providing access to the Redis client. It allows connection management and selection of the appropriate Redis database based on the environment configuration.
-
-## Installation
+### Installation
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/your-repo/blackfire-labeler-task-runner.git
    cd blackfire-labeler-task-runner
    ```
 
 2. **Install Composer Dependencies:**
+
    ```bash
    composer install
    ```
 
-3. **Configure Redis Settings:**
-   - Edit the `redisValues.php` file to include your Redis server configuration:
-   ```php
-   <?php
-   $scopedRedisEnvValues = [
-       'REDIS_HOST' => 'your-redis-host',
-       'REDIS_PORT' => your-redis-port, // Replace with actual port number
-       'REDIS_USERNAME' => 'your-redis-username',
-       'REDIS_PASSWORD' => 'your-redis-password',
-       'REDIS_DB' => 0, // Replace with actual database number
-       'REDIS_SECURE' => true, // or false, based on your configuration
-   ];
-   ```
+3. **Set Up Redis Configuration:**
 
-   This configuration will be automatically loaded when the `runBlackfireTask` function is called.
+   The repository includes a `redisValues.php.example` file, which serves as a template for your Redis configuration. To set up your environment:
+
+   1. Copy the example file to `redisValues.php`:
+
+      ```bash
+      cp redisValues.php.example redisValues.php
+      ```
+
+   2. Open the newly created `redisValues.php` file in a text editor and configure your Redis connection settings:
+
+      ```php
+      <?php
+      $scopedRedisEnvValues = [
+          'REDIS_HOST' => '127.0.0.1',
+          'REDIS_PORT' => 6379,
+          'REDIS_USERNAME' => '',
+          'REDIS_PASSWORD' => '',
+          'REDIS_DB' => 0,
+          'REDIS_SECURE' => false,
+      ];
+      ```
+
+   > **Note:** `redisValues.php` should contain your actual configuration values and should **not** be committed to version control. The `.gitignore` file has been configured to exclude this file.
+
+4. **Running Tests Locally:**
+
+   If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker.
+
+   - **Using Docker Compose**:
+     1. Ensure Docker and Docker Compose are installed.
+     2. Run the following command to start the necessary services and run the tests:
+        ```bash
+        docker-compose up --build
+        ```
+
+   - **Using Local Redis Installation**:
+     1. Start your local Redis server:
+        ```bash
+        redis-server
+        ```
+     2. Run PHPUnit tests:
+        ```bash
+        ./vendor/bin/phpunit --configuration phpunit.xml
+        ```
 
 ## Usage
 
@@ -80,7 +105,7 @@ This setup ensures that the Blackfire labeling and Redis logging tasks are autom
 
 ## Customizing Redis Configuration
 
-- The `RedisConfig` class provides flexibility to adjust the connection settings for Redis based on the values defined in `redisValues.php`. This includes options for host, port, authentication, and database selection.
+- The `redisValues.php` file contains all the necessary configuration values for connecting to your Redis instance. This includes options for the host, port, authentication, and database selection. Remember to update this file according to your environment.
 
 ## Logging and Profiling
 
@@ -101,7 +126,3 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 ## Support
 
 If you encounter any issues or have questions, please open an issue in the repository or contact the maintainers.
-
----
-
-This README now reflects the simplified project structure and continues to provide clear instructions for setup, usage, and configuration.
