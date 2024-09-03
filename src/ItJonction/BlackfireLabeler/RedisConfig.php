@@ -18,53 +18,23 @@ class RedisConfig
      * RedisConfig constructor.
      *
      * @param string $persistentID The persistent ID used for the connection.
-     * @param array|null $redisValues Optional Redis configuration values.
+     * @param array $redisValues An array containing Redis configuration values.
      */
-    public function __construct(string $persistentID = 'bob', ?array $redisValues = null)
+    public function __construct(string $persistentID = 'bob', ?array $redisValues)
     {
-        list(
-            $redisHost,
-            $redisPort,
-            $redisAuth,
-            $redisDatabase,
-            $redisContext
-        ) = $this->getRedisConf($redisValues ?? []);
-
-        $this->redis = new Redis();
-        $this->configure($redisHost, $redisPort, $redisAuth, $redisDatabase, $persistentID, $redisContext);
-    }
-
-    /**
-     * Retrieve Redis configuration from provided parameters or environment variables.
-     *
-     * @param array $params Optional parameters for configuration.
-     * @return array Configuration settings for Redis.
-     */
-    private function getRedisConf(array $params = []): array
-    {
-        $keys = [
-            'REDIS_HOST' => '',
-            'REDIS_PORT' => 0,
-            'REDIS_USERNAME' => '',
-            'REDIS_PASSWORD' => '',
-            'REDIS_DB' => 0,
-            'REDIS_SECURE' => false,
-        ];
-
-        foreach ($keys as $key => &$value) {
-            if (isset($params[$key])) {
-                $value = $params[$key];
-            } elseif (isset($_ENV[$key])) {
-                $value = $_ENV[$key];
-            }
-
-            if ($key === 'REDIS_PORT' || $key === 'REDIS_DB') {
-                $value = (int) $value;
-            }
+        if ($redisValues === null) {
+            throw new \InvalidArgumentException("Redis configuration values must be provided.");
         }
 
+        $redisHost = $redisValues['REDIS_HOST'];
+        $redisPort = (int)$redisValues['REDIS_PORT'];
+        $redisUsername = $redisValues['REDIS_USERNAME'];
+        $redisPassword = $redisValues['REDIS_PASSWORD'];
+        $redisDatabase = (int)$redisValues['REDIS_DB'];
+        $isSecure = (bool)$redisValues['REDIS_SECURE'];
+
         $context = null;
-        if ((bool)$keys['REDIS_SECURE'] === true) {
+        if ($isSecure) {
             $context = [
                 'ssl' => [
                     'verify_peer' => true,
@@ -73,13 +43,8 @@ class RedisConfig
             ];
         }
 
-        return [
-            $keys['REDIS_HOST'],
-            $keys['REDIS_PORT'],
-            [$keys['REDIS_USERNAME'], $keys['REDIS_PASSWORD']],
-            $keys['REDIS_DB'],
-            $context
-        ];
+        $this->redis = new Redis();
+        $this->configure($redisHost, $redisPort, [$redisUsername, $redisPassword], $redisDatabase, $persistentID, $context);
     }
 
     /**
@@ -87,15 +52,15 @@ class RedisConfig
      *
      * @param string $redisHost The hostname of the Redis server.
      * @param int $redisPort The port number of the Redis server.
-     * @param mixed $redisAuth String password or array(username, password).
+     * @param mixed $redisAuth Array containing username and password.
      * @param int $redisDatabase The database index of the Redis server.
      * @param string $persistentID The persistent ID used for the connection.
-     * @param array|null $context Optional context parameters.
+     * @param array|null $context The optional context parameters.
      */
     private function configure(
         string $redisHost,
         int $redisPort,
-        mixed $redisAuth,
+        array $redisAuth,
         int $redisDatabase,
         string $persistentID,
         ?array $context
