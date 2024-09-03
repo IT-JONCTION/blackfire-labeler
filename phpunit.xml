@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
-         stopOnFailure="false"
-         verbose="true">
+         stopOnFailure="false">
     
     <testsuites>
         <testsuite name="Default">
@@ -12,18 +11,10 @@
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">./src</directory>
-        </include>
-        <exclude>
-            <directory suffix=".php">./tests</directory>
-        </exclude>
-    </coverage>
-
     <logging>
         <junit outputFile="build/logs/junit.xml"/>
-        <coverage-clover outputFile="build/logs/clover.xml"/>
+        <coverage-php outputFile="build/logs/coverage-php.xml"/>
+        <coverage-html outputDirectory="build/coverage-html"/>
     </logging>
 
     <php>
