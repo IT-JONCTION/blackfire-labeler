@@ -32,8 +32,8 @@ This repository provides a utility to facilitate the labeling of transactions us
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/your-repo/blackfire-labeler-task-runner.git
-   cd blackfire-labeler-task-runner
+   git clone https://github.com/IT-JONCTION/blackfire-labeler.git
+   cd blackfire-labeler
    ```
 
 2. **Install Composer Dependencies:**
@@ -98,7 +98,7 @@ To enable Blackfire profiling and Redis data management for your PHP application
 Add the following line to your live `php.ini` file:
 
 ```ini
-auto_prepend_file = /your/path/to/src/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
+auto_prepend_file = /your/path/to/blackfire-labeler/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
 ```
 
 This setup ensures that the Blackfire labeling and Redis logging tasks are automatically executed at the start of each request, before any other PHP scripts run.
