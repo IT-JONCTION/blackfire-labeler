@@ -13,7 +13,6 @@
 
     <logging>
         <junit outputFile="build/logs/junit.xml"/>
-        <coverage-php outputFile="build/logs/coverage-php.xml"/>
         <coverage-html outputDirectory="build/coverage-html"/>
     </logging>
 
