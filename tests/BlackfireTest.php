@@ -146,7 +146,7 @@ class BlackfireTest extends TestCase
     $redisValues = [
       'REDIS_HOST' => '127.0.0.1',    // Assuming the Redis service is running on localhost
       'REDIS_PORT' => 6379,           // Default Redis port
-      'REDIS_USERNAME' => '',         // Assuming no username is needed
+      'REDIS_USERNAME' => 'default',         // Assuming no username is needed
       'REDIS_PASSWORD' => '',         // Assuming no password is needed
       'REDIS_DB' => 0,                // Using the default database
       'REDIS_SECURE' => false         // No SSL/TLS needed for local testing

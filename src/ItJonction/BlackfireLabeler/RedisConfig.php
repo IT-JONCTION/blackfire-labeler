@@ -20,7 +20,7 @@ class RedisConfig
      * @param string $persistentID The persistent ID used for the connection.
      * @param array $redisValues An array containing Redis configuration values.
      */
-    public function __construct(string $persistentID = 'bob', ?array $redisValues)
+    public function __construct(string $persistentID = 'bob', ?array $redisValues = null)
     {
         if ($redisValues === null) {
             throw new \InvalidArgumentException("Redis configuration values must be provided.");
