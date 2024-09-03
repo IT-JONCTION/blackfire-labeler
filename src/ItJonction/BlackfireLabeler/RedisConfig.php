@@ -33,7 +33,7 @@ class RedisConfig
         $redisDatabase = (int)$redisValues['REDIS_DB'];
         $isSecure = (bool)$redisValues['REDIS_SECURE'];
 
-        $context = null;
+        $context = [];
         if ($isSecure) {
             $context = [
                 'ssl' => [
