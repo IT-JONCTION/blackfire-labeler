@@ -15,6 +15,9 @@ This repository provides a utility to facilitate the labeling of transactions us
 │   │       ├── CommonTaskRunner.php
 │   │       ├── BlackfireLabeler.php
 │   │       └── RedisConfig.php
+├── tests
+│   └── BlackfireIntegration
+│       └── BlackfireTest.php
 ├── redisValues.php
 ├── composer.json
 └── README.md
