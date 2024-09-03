@@ -18,9 +18,11 @@ This repository provides a utility to facilitate the labeling of transactions us
 ├── tests
 │   └── BlackfireIntegration
 │       └── BlackfireTest.php
-├── redisValues.php
 ├── composer.json
-└── README.md
+├── LICENSE
+├── phpunit.xml
+├── README.md
+└── redisValues.php
 ```
 
 ### Main Components
