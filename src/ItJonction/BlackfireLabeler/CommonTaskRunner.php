@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ItJonction\BlackfireLabeler;
 
+use Exception;
+
 require_once __DIR__ . '/../../../redisValues.php';
 require_once __DIR__ . '/BlackfireLabeler.php';
 require_once __DIR__ . '/RedisConfig.php';

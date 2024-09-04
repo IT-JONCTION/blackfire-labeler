@@ -70,7 +70,7 @@ This repository provides a utility to facilitate the labeling of transactions us
 
 4. **Running Tests Locally:**
 
-   If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker. For simplicity we have assumed that you have Redis and PHP 8.2 installed. Feel free to create an issue requesting docker, or better still add a PR.
+   If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker. For simplicity, we have assumed that you have Redis and PHP 8.2 installed. Feel free to create an issue requesting docker, or better still add a PR.
 
    - **Using Local Redis Installation**:
      1. Start your local Redis server:
