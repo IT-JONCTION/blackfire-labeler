@@ -22,7 +22,8 @@ This repository provides a utility to facilitate the labeling of transactions us
 │   │       ├── BlackfireLabelerController.php
 │   │       ├── CommonTaskRunner.php
 │   │       ├── BlackfireLabeler.php
-│   │       └── RedisConfig.php
+│   │       ├── RedisConfig.php
+│   │       └── task_blackfireArchiver.php
 ├── tests
 │   └── BlackfireIntegration
 │       └── BlackfireTest.php
@@ -102,7 +103,27 @@ This repository provides a utility to facilitate the labeling of transactions us
 auto_prepend_file = /usr/local/blackfire-labeler/src/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
 ```
 
-This setup ensures that the Blackfire labeling and Redis logging tasks are automatically executed at the start of each request, before any other PHP scripts run.
+6. **Create a Cron Job for Archiving Blackfire Logs:**
+
+   To regularly run the `task_blackfireArchiver.php` script and archive Blackfire logs, you can set up a cron job. Here's how:
+
+   1. Open your terminal and run the following command to edit the crontab file:
+
+      ```bash
+      crontab -e
+      ```
+
+   2. In the crontab file, add a new line to specify the schedule for running the `task_blackfireArchiver.php` script. For example, to run the script every day at 2:00 AM, add the following line:
+
+      ```plaintext
+      0 2 * * * php /usr/local/blackfire-labeler/src/ItJonction/BlackfireLabeler/task_blackfireArchiver.php
+      ```
+
+      This line specifies that the script should be executed at minute 0, hour 2, every day, every month, and every day of the week.
+
+   3. Save the crontab file and exit the editor.
+
+   The cron job is now set up to run the `task_blackfireArchiver.php` script at the specified schedule. This will ensure that your Blackfire logs are regularly archived and managed.
 
 ## Contributing
 
