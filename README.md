@@ -4,6 +4,14 @@
 
 This repository provides a utility to facilitate the labeling of transactions using Blackfire and manage their associated data in Redis. The primary components include a task runner, a Blackfire labeler, and a Redis configuration class. The setup is intentionally small and siloed to handle only the limited functionality required for Blackfire profiling and Redis data management. This design is deliberate because the code is intended to be called from an `auto_prepend` file. By keeping it isolated, we avoid potential conflicts with the `RedisConfig` class or other configurations used in different parts of the project or other projects.
 
+## Logging and Profiling
+
+- **BlackfireLabeler** offers methods for:
+  - Generating unique request hashes.
+  - Logging request details and included files to Redis.
+  - Setting transaction names for Blackfire profiling.
+  - Archiving and managing logs.
+
 ## Project Structure
 
 ```plaintext
@@ -44,7 +52,9 @@ This repository provides a utility to facilitate the labeling of transactions us
 
 3. **Set Up Redis Configuration:**
 
-   The repository includes a `redisValues.php.example` file, which serves as a template for your Redis configuration. To set up your environment:
+   The repository includes a `redisValues.php.example` file, which serves as a template for your Redis configuration and includes options for the host, port, authentication, and database selection. 
+   
+   To set up your environment:
 
    1. Copy the example file to `redisValues.php`:
 
@@ -52,7 +62,7 @@ This repository provides a utility to facilitate the labeling of transactions us
       cp redisValues.php.example redisValues.php
       ```
 
-   2. Open the newly created `redisValues.php` file in a text editor and configure your Redis connection settings:
+   2. Open the newly created `redisValues.php` file in a text editor and configure your Redis connection settings according to your environment:
 
       ```php
       <?php
@@ -74,7 +84,7 @@ This repository provides a utility to facilitate the labeling of transactions us
 
    ```bash
    cd ..
-   sudo mv blackfire-labeler-task-runner /usr/local/blackfire-labeler
+   sudo mv blackfire-labeler /usr/local/blackfire-labeler
    ```
 
    Ensure the permissions are correctly set:
@@ -88,47 +98,28 @@ This repository provides a utility to facilitate the labeling of transactions us
 
    Add the following line to your `php.ini` file to ensure the project is auto-prepended:
 
-   If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker. For simplicity, we have assumed that you have Redis and PHP 8.2 installed. Feel free to create an issue requesting docker, or better still add a PR.
-
-   - **Using Local Redis Installation**:
-     1. Start your local Redis server:
-        ```bash
-        redis-server
-        ```
-     2. Run PHPUnit tests:
-        ```bash
-        ./vendor/bin/phpunit --configuration phpunit.xml
-        ```
-
-## Usage
-
-### Configuring the Auto Prepend File
-
-To enable Blackfire profiling and Redis data management for your PHP application, you need to reference the `BlackfireLabelerController.php` file in the `auto_prepend_file` directive of your `php.ini` configuration.
-
-Add the following line to your live `php.ini` file:
-
 ```ini
 auto_prepend_file = /usr/local/blackfire-labeler/src/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
 ```
 
 This setup ensures that the Blackfire labeling and Redis logging tasks are automatically executed at the start of each request, before any other PHP scripts run.
 
-## Customizing Redis Configuration
-
-- The `redisValues.php` file contains all the necessary configuration values for connecting to your Redis instance. This includes options for the host, port, authentication, and database selection. Remember to update this file according to your environment.
-
-## Logging and Profiling
-
-- **BlackfireLabeler** offers methods for:
-  - Generating unique request hashes.
-  - Logging request details and included files to Redis.
-  - Setting transaction names for Blackfire profiling.
-  - Archiving and managing logs.
-
 ## Contributing
 
 Contributions to this repository are welcome. Please fork the repository and create a pull request for any feature enhancements or bug fixes. Ensure that your code adheres to the project's coding standards and includes appropriate tests.
+
+## Running local tests
+If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker. For simplicity, we have assumed that you have Redis and PHP 8.2 installed. Feel free to create an issue requesting docker, or better still add a PR.
+
+- **Using Local Redis Installation**:
+   1. Start your local Redis server:
+      ```bash
+      redis-server
+      ```
+   2. Run PHPUnit tests:
+      ```bash
+      ./vendor/bin/phpunit --configuration phpunit.xml
+      ```
 
 ## License
 
