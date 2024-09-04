@@ -59,7 +59,7 @@ This repository provides a utility to facilitate the labeling of transactions us
       $scopedRedisEnvValues = [
           'REDIS_HOST' => '127.0.0.1',
           'REDIS_PORT' => 6379,
-          'REDIS_USERNAME' => '',
+          'REDIS_USERNAME' => 'default',
           'REDIS_PASSWORD' => '',
           'REDIS_DB' => 0,
           'REDIS_SECURE' => false,
@@ -68,7 +68,25 @@ This repository provides a utility to facilitate the labeling of transactions us
 
    > **Note:** `redisValues.php` should contain your actual configuration values and should **not** be committed to version control. The `.gitignore` file has been configured to exclude this file.
 
-4. **Running Tests Locally:**
+4. **Move the Entire Project to `/usr/local/blackfire-labeler/`:**
+
+   Once you've set up the Redis configuration and installed Composer, exit the project directory and move the entire folder to `/usr/local/blackfire-labeler/`.
+
+   ```bash
+   cd ..
+   sudo mv blackfire-labeler-task-runner /usr/local/blackfire-labeler
+   ```
+
+   Ensure the permissions are correctly set:
+
+   ```bash
+   sudo chown -R root:www-data /usr/local/blackfire-labeler
+   sudo chmod -R 755 /usr/local/blackfire-labeler
+   ```
+
+5. **Configure `php.ini` for `auto_prepend_file`:**
+
+   Add the following line to your `php.ini` file to ensure the project is auto-prepended:
 
    If you want to run the tests locally, make sure you have a Redis instance running. You can either install Redis directly on your machine or use Docker. For simplicity, we have assumed that you have Redis and PHP 8.2 installed. Feel free to create an issue requesting docker, or better still add a PR.
 
@@ -91,7 +109,7 @@ To enable Blackfire profiling and Redis data management for your PHP application
 Add the following line to your live `php.ini` file:
 
 ```ini
-auto_prepend_file = /your/path/to/blackfire-labeler/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
+auto_prepend_file = /usr/local/blackfire-labeler/src/ItJonction/BlackfireLabeler/BlackfireLabelerController.php
 ```
 
 This setup ensures that the Blackfire labeling and Redis logging tasks are automatically executed at the start of each request, before any other PHP scripts run.
